@@ -1,8 +1,19 @@
-package edu.daytonastate.cet3383.ebank;
+package edu.daytonastate.cet3383.ebank.factory;
 
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
+import edu.daytonastate.cet3383.ebank.CashWithdrawal;
+import edu.daytonastate.cet3383.ebank.CreditAccount;
+import edu.daytonastate.cet3383.ebank.CreditCardAccount;
+import edu.daytonastate.cet3383.ebank.DebitAccount;
+import edu.daytonastate.cet3383.ebank.Deposit;
+import edu.daytonastate.cet3383.ebank.Id;
+import edu.daytonastate.cet3383.ebank.Payment;
+import edu.daytonastate.cet3383.ebank.Transaction;
+import edu.daytonastate.cet3383.ebank.Transfer;
+import edu.daytonastate.cet3383.ebank.repository.TransactionRepository;
 
 @Factory
 public class TransactionFactory {

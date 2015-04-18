@@ -10,9 +10,9 @@ import org.springframework.context.annotation.Bean;
 
 import edu.daytonastate.cet3383.ebank.Customer;
 import edu.daytonastate.cet3383.ebank.CustomerName;
-import edu.daytonastate.cet3383.ebank.CustomerRepository;
 import edu.daytonastate.cet3383.ebank.Id;
-import edu.daytonastate.cet3383.ebank.IdFactory;
+import edu.daytonastate.cet3383.ebank.factory.IdFactory;
+import edu.daytonastate.cet3383.ebank.repository.CustomerRepository;
 
 @SpringBootApplication
 public class EBankApplication {
@@ -30,11 +30,15 @@ public class EBankApplication {
 				System.out.println("Creating test data");
 				
 				CustomerName juanFiallo = new CustomerName("Fiallo", "Juan", 'M');
+				CustomerName danWilliams = new CustomerName("Williams", "Dan");
+				CustomerName markMonk = new CustomerName("Monk", "Mark");
+				CustomerName bahmanMotlagh = new CustomerName("Motlagh", "Bahman");
 				
-				List<CustomerName> customerNames = Arrays.asList(juanFiallo);
+				List<CustomerName> customerNames = Arrays.asList(juanFiallo, danWilliams, markMonk, bahmanMotlagh);
 				
 				for (CustomerName customerName : customerNames) {
-					Id id = idFactory.uniqueId();
+					String userName = customerName.firstName().toLowerCase() + "." + customerName.lastName().toLowerCase();
+					Id id = new Id(userName);
 					Customer customer = new Customer(id, customerName);
 					
 					customerRepository.save(customer);

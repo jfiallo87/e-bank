@@ -2,9 +2,9 @@ package edu.daytonastate.cet3383.ebank;
 
 public class Id {
 	
-	private final Long id;
+	private final String id;
 	
-	public Id(Long id) {
+	public Id(String id) {
 		this.id = id;
 	}
 
@@ -27,7 +27,7 @@ public class Id {
 
 	@Override
 	public String toString() {
-		return String.valueOf(id);
+		return id;
 	}
 	
 }

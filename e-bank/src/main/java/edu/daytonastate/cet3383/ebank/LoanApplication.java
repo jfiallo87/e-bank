@@ -5,7 +5,7 @@ public class LoanApplication {
 	private Double balance;
 	
 	public LoanApplication(Double loanAmount) {
-		if (loanAmount <= 0.00) {
+		if (loanAmount == null || loanAmount <= 0.00) {
 			throw new UnsupportedOperationException();
 		}
 		

@@ -4,8 +4,8 @@ import java.util.Date;
 
 public class ReadOnlyTransaction extends Transaction {
 
-	public ReadOnlyTransaction(Date date, TransactionType type, Double amount, Account account) {
-		super(date, type, amount, account);
+	public ReadOnlyTransaction(Date date, TransactionType type, Double amount, Account... accounts) {
+		super(date, type, amount, accounts);
 	}
 
 }

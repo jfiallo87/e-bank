@@ -1,4 +1,4 @@
-package edu.daytonastate.cet3383.ebank;
+package edu.daytonastate.cet3383.ebank.repository;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -11,6 +11,12 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import edu.daytonastate.cet3383.ebank.Account;
+import edu.daytonastate.cet3383.ebank.Id;
+import edu.daytonastate.cet3383.ebank.ReadOnlyTransaction;
+import edu.daytonastate.cet3383.ebank.Transaction;
+import edu.daytonastate.cet3383.ebank.TransactionType;
+
 @Repository
 public class TransactionRepository {
 	
@@ -22,10 +28,12 @@ public class TransactionRepository {
 	private static Map<Id, List<Map<String, Object>>> transactions = new LinkedHashMap<>();
 	
 	private AccountRepository accountRepository;
+	private AccountHistoryRepository accountHistoryRepository;
 	
 	@Autowired
-	public TransactionRepository(AccountRepository accountRepository) {
+	public TransactionRepository(AccountRepository accountRepository, AccountHistoryRepository accountHistoryRepository) {
 		this.accountRepository = accountRepository;
+		this.accountHistoryRepository = accountHistoryRepository;
 	}
 
 	public void save(Transaction transaction) {
@@ -42,6 +50,9 @@ public class TransactionRepository {
 				row.put(TRANSACTION_BALANCE, account.currentBalance());
 				
 				transactions.get(account.id()).add(row);
+				
+				accountRepository.save(account);
+				accountHistoryRepository.save(transaction.date(), account);
 			}
 		}
 	}
@@ -55,9 +66,11 @@ public class TransactionRepository {
 			Date date = (Date) recordByAccountId.get(TRANSACTION_DATE);
 			TransactionType type = (TransactionType) recordByAccountId.get(TRANSACTION_TYPE);
 			Double amount = (Double) recordByAccountId.get(TRANSACTION_AMOUNT);
-			Account account = accountRepository.findById(accountId);
 			
-			transactionsByAccountId.add(new ReadOnlyTransaction(date, type, amount, account));
+			List<Account> accounts = accountHistoryRepository.findByTransactionDate(date);
+			Account[] arrayOfAccounts = accounts.toArray(new Account[accounts.size()]);
+			
+			transactionsByAccountId.add(new ReadOnlyTransaction(date, type, amount, arrayOfAccounts));
 		}
 		
 		return transactionsByAccountId;

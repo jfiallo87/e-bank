@@ -1,9 +1,13 @@
-package edu.daytonastate.cet3383.ebank;
+package edu.daytonastate.cet3383.ebank.repository;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.stereotype.Repository;
+
+import edu.daytonastate.cet3383.ebank.Customer;
+import edu.daytonastate.cet3383.ebank.CustomerName;
+import edu.daytonastate.cet3383.ebank.Id;
 
 @Repository
 public class CustomerRepository {

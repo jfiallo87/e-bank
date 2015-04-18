@@ -1,8 +1,22 @@
-package edu.daytonastate.cet3383.ebank;
+package edu.daytonastate.cet3383.ebank.service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-@ApplicationService
+import edu.daytonastate.cet3383.ebank.Account;
+import edu.daytonastate.cet3383.ebank.CreditAccount;
+import edu.daytonastate.cet3383.ebank.CreditCardAccount;
+import edu.daytonastate.cet3383.ebank.DebitAccount;
+import edu.daytonastate.cet3383.ebank.Transaction;
+import edu.daytonastate.cet3383.ebank.factory.IdFactory;
+import edu.daytonastate.cet3383.ebank.factory.TransactionFactory;
+import edu.daytonastate.cet3383.ebank.repository.AccountRepository;
+import edu.daytonastate.cet3383.ebank.repository.TransactionRepository;
+
+@Service
 public class BankingService {
 	
 	private AccountRepository accountRepository;
@@ -20,8 +34,32 @@ public class BankingService {
 		this.idFactory = idFactory;
 		this.transactionFactory = transactionFactory;
 	}
+	
+	public Account info(String customerId, String accountId) {
+		Account customerAccount = null;
+		
+		Account account = findAccountById(accountId);
+		
+		if (validAccountForCustomer(customerId, account)) {
+			customerAccount = account;
+		}
+		
+		return customerAccount;
+	}
+	
+	public List<Transaction> transactions(String customerId, String accountId) {
+		List<Transaction> transactions = new ArrayList<>();
+		
+		Account account = findAccountById(accountId);
+		
+		if (validAccountForCustomer(customerId, account)) {
+			transactions = transactionRepository.findByAccountId(idFactory.account(accountId));
+		}
+		
+		return transactions;
+	}
 
-	public void cashWithdrawal(Long customerId, Long accountId, Double amount) {
+	public void cashWithdrawal(String customerId, String accountId, Double amount) {
 		Account account = findAccountById(accountId);
 		
 		if (validAccountForCustomer(customerId, account)) {
@@ -43,7 +81,7 @@ public class BankingService {
 		}
 	}
 
-	public void deposit(Long customerId, Long accountId, Double amount) {
+	public void deposit(String customerId, String accountId, Double amount) {
 		Account account = findAccountById(accountId);
 		
 		if (validAccountForCustomer(customerId, account) && account instanceof DebitAccount) {
@@ -54,7 +92,7 @@ public class BankingService {
 		}
 	}
 	
-	public void payment(Long customerId, Long forAccountId, Long fromAccountId, Double amount) {
+	public void payment(String customerId, String forAccountId, String fromAccountId, Double amount) {
 		Account forAccount = findAccountById(forAccountId);
 		Account fromAccount = findAccountById(fromAccountId);
 		
@@ -67,7 +105,7 @@ public class BankingService {
 		}
 	}
 	
-	public void transfer(Long customerId, Long toAccountId, Long fromAccountId, Double amount) {
+	public void transfer(String customerId, String toAccountId, String fromAccountId, Double amount) {
 		Account toAccount = findAccountById(toAccountId);
 		Account fromAccount = findAccountById(fromAccountId);
 		
@@ -80,11 +118,11 @@ public class BankingService {
 		}
 	}
 
-	private Account findAccountById(Long accountId) {
+	private Account findAccountById(String accountId) {
 		return accountRepository.findById(idFactory.account(accountId));
 	}
 	
-	private boolean validAccountsForCustomer(Long customerId, Account... accounts) {
+	private boolean validAccountsForCustomer(String customerId, Account... accounts) {
 		boolean validAccountsForCustomer = true;
 		
 		if (accounts != null) {
@@ -99,7 +137,7 @@ public class BankingService {
 		return validAccountsForCustomer;
 	}
 	
-	private boolean validAccountForCustomer(Long customerId, Account account) {
+	private boolean validAccountForCustomer(String customerId, Account account) {
 		return (account != null && account.accessibleBy(idFactory.customer(customerId)));
 	}
 	
