@@ -1,0 +1,53 @@
+<div>
+	<div class="page-header">
+		<h1>Hi {{customer.firstName}} {{customer.lastName}}!</h1>
+	</div>
+	<ul class="list-group">
+		<li class="list-group-item">
+			<a href="" ng-click="openCheckingAccount()">Open New Checking Account</a>
+		</li>
+		<li class="list-group-item">
+			<a href="" ng-click="openSavingsAccount()">Open New Savings Account</a>
+		</li>
+		<li class="list-group-item">
+			<a href="" ng-click="openCreditCardAccount()">Apply for New Credit Card</a>
+		</li>
+	</ul>
+	
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title">Loan Application</h3>
+		</div>
+		<div class="panel-body">
+			<form novalidate ng-submit="loanApplication()">
+				<label for="type">Type</label>
+				<select id="type" class="form-control" ng-model="loanApplication.type">
+					<option value="car" label="Car Loan"></option>
+					<option value="boat" label="Boat Loan"></option>
+					<option value="mortgage" label="Mortgage"></option>
+				</select>
+				
+				<label for="amount">Amount</label>
+				<input id="amount" type="number" class="form-control" ng-model="loanApplication.data.amount">
+				
+				<br/>
+				
+				<input type="submit" value="Submit">
+			</form>
+		</div>
+	</div>
+	
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">Accounts</h3>
+		</div>
+		<div class="panel-body">
+			<ul class="list-group">
+				<li ng-repeat="account in customer.accounts" class="list-group-item">
+					<div class="text-primary">{{account.id}} ({{account.type}})</div>
+					<div>Balance: {{account.balance}}</div>
+					<div ng-show="account.type == 'CREDIT_CARD'">Credit Limit: {{account.limit}}</div>
+				</li>
+			</ul>
+	</div>
+</div>
