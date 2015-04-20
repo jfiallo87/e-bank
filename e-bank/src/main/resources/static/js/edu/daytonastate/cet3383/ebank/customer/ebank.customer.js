@@ -1,10 +1,13 @@
 angular.module("ebank.customer", [])
 .controller("customerController", function($scope, $http) {
 	$scope.customer = {};
-	$scope.loanApplication = {type: "car",
+	$scope.loanTypes = [{value: "car", label: "Car Loan"},
+	                    {value: "boat", label: "Boat Loan"},
+	                    {value: "mortgage", label: "Mortgage"}]
+	$scope.loanApplication = {type: $scope.loanTypes[0],
 							  data: {amount: 0.00}};
 	
-	$scope.loadSummary = function() {
+	$scope.loadCustomer = function() {
 		$http.get("/api")
 		.success(function(data) {
 			$scope.customer = data;
@@ -31,8 +34,8 @@ angular.module("ebank.customer", [])
 	};
 	
 	$scope.loanApplication = function() {
-		openAccount("loan/" + $scope.loanApplication.type, $scope.loanApplication.data);
+		openAccount("loan/" + $scope.loanApplication.type.value, $scope.loanApplication.data);
 	}
 	
-	$scope.loadSummary();
+	$scope.loadCustomer();
 });

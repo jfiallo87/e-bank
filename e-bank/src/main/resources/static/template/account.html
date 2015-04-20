@@ -1,0 +1,63 @@
+<div>
+	<div class="page-header">
+		<h1>{{account.type}}: {{account.id}}</h1>
+	</div>
+	
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">Account Information</h3>
+		</div>
+		<div class="panel-body">
+			<div class="text-primary">Balance: {{account.balance}}</div>
+			<div class="text-primary" ng-show="account.type == 'CREDIT_CARD'">Limit: {{account.limit}}</div>
+		</div>
+	</div>
+	
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title">Actions</h3>
+		</div>
+		<div class="panel-body">
+			<form novalidate ng-submit="submitTransaction()">
+				<div>
+					<label for="type">Type</label>
+					<select id="type" class="form-control" ng-model="transaction.type" ng-options="type as type.label for type in transactionTypes">
+					</select>
+				</div>
+				
+				<div>
+					<label for="amount">Amount</label>
+					<input id="amount" type="number" class="form-control" ng-model="transaction.data.amount">
+				</div>
+				
+				<div ng-show="transaction.type.value == 'payment' || transaction.type.value == 'transfer'">
+					<label for="fromAccount">From Account</label>
+					<select id="fromAccount" class="form-control" ng-model="transaction.data.fromAccount" ng-options="account.id as formatAccount(account) for account in debitAccounts">
+					</select>
+				</div>
+				
+				<br/>
+				
+				<input type="submit" value="Submit" class="btn btn-default">
+			</form>
+		</div>
+	</div>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>Date</th>
+				<th>Type</th>
+				<th>Amount</th>
+				<th>Balance</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="transaction in account.transactions | orderBy: '-date'">
+				<td>{{transaction.date | date: 'medium'}}</td>
+				<td>{{transaction.type}}</td>
+				<td>{{transaction.amount}}</td>
+				<td>{{currentAccount(transaction).balance}}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

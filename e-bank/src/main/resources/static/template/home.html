@@ -21,10 +21,7 @@
 		<div class="panel-body">
 			<form novalidate ng-submit="loanApplication()">
 				<label for="type">Type</label>
-				<select id="type" class="form-control" ng-model="loanApplication.type">
-					<option value="car" label="Car Loan"></option>
-					<option value="boat" label="Boat Loan"></option>
-					<option value="mortgage" label="Mortgage"></option>
+				<select id="type" class="form-control" ng-model="loanApplication.type" ng-options="type as type.label for type in loanTypes">
 				</select>
 				
 				<label for="amount">Amount</label>
@@ -32,7 +29,7 @@
 				
 				<br/>
 				
-				<input type="submit" value="Submit">
+				<input type="submit" value="Submit" class="btn btn-default">
 			</form>
 		</div>
 	</div>
@@ -44,10 +41,11 @@
 		<div class="panel-body">
 			<ul class="list-group">
 				<li ng-repeat="account in customer.accounts" class="list-group-item">
-					<div class="text-primary">{{account.id}} ({{account.type}})</div>
+					<div class="text-primary"><a href="#/account/{{account.id}}">{{account.id}}</a> ({{account.type}})</div>
 					<div>Balance: {{account.balance}}</div>
 					<div ng-show="account.type == 'CREDIT_CARD'">Credit Limit: {{account.limit}}</div>
 				</li>
 			</ul>
+		</div>
 	</div>
 </div>
