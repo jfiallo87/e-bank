@@ -1,6 +1,6 @@
-package edu.daytonastate.cet3383.ebank.web.view;
+package edu.daytonastate.cet3383.ebank.web.form;
 
-public class PaymentView extends TransactionView {
+public class PaymentForm extends TransactionForm {
 	
 	private String fromAccount;
 

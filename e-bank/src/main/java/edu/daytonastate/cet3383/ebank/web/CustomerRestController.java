@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import edu.daytonastate.cet3383.ebank.Account;
 import edu.daytonastate.cet3383.ebank.Customer;
 import edu.daytonastate.cet3383.ebank.service.CustomerService;
+import edu.daytonastate.cet3383.ebank.web.form.LoanApplicationForm;
 import edu.daytonastate.cet3383.ebank.web.view.CustomerView;
-import edu.daytonastate.cet3383.ebank.web.view.LoanApplicationView;
 
 @RestController
 @RequestMapping(value=API)
@@ -71,10 +71,10 @@ public class CustomerRestController {
 	}
 	
 	@RequestMapping(method=POST, value=ACCOUNT_OPEN_LOAN_CAR)
-	public CustomerView openCarLoanAccount(Principal customer, @RequestBody LoanApplicationView loanApplication) {
+	public CustomerView openCarLoanAccount(Principal customer, @RequestBody LoanApplicationForm loanApplicationForm) {
 		String customerId = customer.getName();
 		
-		customerService.openCarLoanAccount(customerId, loanApplication.getAmount());
+		customerService.openCarLoanAccount(customerId, loanApplicationForm.getAmount());
 		
 		CustomerView customerView = customerView(customerId);
 		
@@ -82,10 +82,10 @@ public class CustomerRestController {
 	}
 	
 	@RequestMapping(method=POST, value=ACCOUNT_OPEN_LOAN_BOAT)
-	public CustomerView openBoatLoanAccount(Principal customer, @RequestBody LoanApplicationView loanApplication) {
+	public CustomerView openBoatLoanAccount(Principal customer, @RequestBody LoanApplicationForm loanApplicationForm) {
 		String customerId = customer.getName();
 		
-		customerService.openBoatLoanAccount(customerId, loanApplication.getAmount());
+		customerService.openBoatLoanAccount(customerId, loanApplicationForm.getAmount());
 		
 		CustomerView customerView = customerView(customerId);
 		
@@ -93,10 +93,10 @@ public class CustomerRestController {
 	}
 	
 	@RequestMapping(method=POST, value=ACCOUNT_OPEN_LOAN_MORTGAGE)
-	public CustomerView openMortgageAccount(Principal customer, @RequestBody LoanApplicationView loanApplication) {
+	public CustomerView openMortgageAccount(Principal customer, @RequestBody LoanApplicationForm loanApplicationForm) {
 		String customerId = customer.getName();
 		
-		customerService.openMortgageAccount(customerId, loanApplication.getAmount());
+		customerService.openMortgageAccount(customerId, loanApplicationForm.getAmount());
 		
 		CustomerView customerView = customerView(customerId);
 		

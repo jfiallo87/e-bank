@@ -16,6 +16,12 @@ public class IdFactory {
 	}
 	
 	public synchronized Id uniqueId() {
+		try {
+			Thread.sleep(1);
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
+		}
+		
 		Date now = new Date();
 		String uniqueId = String.valueOf(now.getTime());
 		return new Id(uniqueId);

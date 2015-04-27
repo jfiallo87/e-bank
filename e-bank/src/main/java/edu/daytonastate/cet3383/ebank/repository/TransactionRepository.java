@@ -1,10 +1,11 @@
 package edu.daytonastate.cet3383.ebank.repository;
 
+import static edu.daytonastate.cet3383.ebank.repository.InMemoryDb.*;
+
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,8 +25,6 @@ public class TransactionRepository {
 	private static final String TRANSACTION_BALANCE = "balance";
 	private static final String TRANSACTION_AMOUNT = "amount";
 	private static final String TRANSACTION_DATE = "date";
-	
-	private static Map<Id, List<Map<String, Object>>> transactions = new LinkedHashMap<>();
 	
 	private AccountRepository accountRepository;
 	private AccountHistoryRepository accountHistoryRepository;

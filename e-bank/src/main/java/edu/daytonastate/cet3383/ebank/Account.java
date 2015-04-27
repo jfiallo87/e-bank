@@ -29,7 +29,13 @@ public abstract class Account {
 	}
 	
 	public Double currentBalance() {
-		return balance;
+		Double currentBalance = 0.00;
+		
+		synchronized (balance) {
+			currentBalance = balance;
+		}
+		
+		return currentBalance;
 	}
 	
 	public Double balanceLimit() {

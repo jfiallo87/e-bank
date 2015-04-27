@@ -8,10 +8,11 @@ import edu.daytonastate.cet3383.ebank.Account;
 import edu.daytonastate.cet3383.ebank.Transaction;
 import edu.daytonastate.cet3383.ebank.TransactionType;
 
-public class TransactionSummaryView extends TransactionView {
+public class TransactionSummaryView {
 	
 	private Date date;
 	private TransactionType type;
+	protected Double amount;
 	
 	private Set<AccountSummaryView> accounts = new HashSet<>();
 	
@@ -44,7 +45,15 @@ public class TransactionSummaryView extends TransactionView {
 	public void setType(TransactionType type) {
 		this.type = type;
 	}
+	
+	public Double getAmount() {
+		return amount;
+	}
 
+	public void setAmount(Double amount) {
+		this.amount = amount;
+	}
+	
 	public Set<AccountSummaryView> getAccounts() {
 		return accounts;
 	}

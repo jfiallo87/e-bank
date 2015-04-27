@@ -1,6 +1,6 @@
 package edu.daytonastate.cet3383.ebank.factory;
 
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
+@Component
 public @interface Factory {}

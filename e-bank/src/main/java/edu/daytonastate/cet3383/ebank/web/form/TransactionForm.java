@@ -1,9 +1,9 @@
-package edu.daytonastate.cet3383.ebank.web.view;
+package edu.daytonastate.cet3383.ebank.web.form;
 
-public class LoanApplicationView {
+public abstract class TransactionForm {
 	
-	private Double amount;
-	
+	protected Double amount;
+
 	public Double getAmount() {
 		return amount;
 	}

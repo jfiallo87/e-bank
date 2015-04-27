@@ -1,7 +1,8 @@
 package edu.daytonastate.cet3383.ebank.repository;
 
+import static edu.daytonastate.cet3383.ebank.repository.InMemoryDb.*;
+
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,8 +13,6 @@ import edu.daytonastate.cet3383.ebank.Id;
 
 @Repository
 public class AccountRepository extends AbstractAccountRepository {
-	
-	private static Map<Id, Map<String, Object>> accounts = new HashMap<>();
 	
 	public void save(Account account) {
 		if (account != null) {

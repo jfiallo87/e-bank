@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 import edu.daytonastate.cet3383.ebank.Account;
 import edu.daytonastate.cet3383.ebank.Transaction;
 import edu.daytonastate.cet3383.ebank.service.BankingService;
+import edu.daytonastate.cet3383.ebank.web.form.CashWidthdrawalForm;
+import edu.daytonastate.cet3383.ebank.web.form.DepositForm;
+import edu.daytonastate.cet3383.ebank.web.form.PaymentForm;
+import edu.daytonastate.cet3383.ebank.web.form.TransferForm;
 import edu.daytonastate.cet3383.ebank.web.view.AccountDetailView;
-import edu.daytonastate.cet3383.ebank.web.view.CashWidthdrawalView;
-import edu.daytonastate.cet3383.ebank.web.view.DepositView;
-import edu.daytonastate.cet3383.ebank.web.view.PaymentView;
-import edu.daytonastate.cet3383.ebank.web.view.TransferView;
 
 @RestController
 @RequestMapping(value=ACCOUNT_ACCOUNT_ID)
@@ -40,37 +40,37 @@ public class BankingRestController {
 	}
 	
 	@RequestMapping(method=POST, value=WITHDRAWAL)
-	public AccountDetailView cashWithdrawal(Principal principal, @PathVariable(value=ACCOUNT_ID) String accountId, @RequestBody CashWidthdrawalView cashWidthdrawal) {
+	public AccountDetailView cashWithdrawal(Principal principal, @PathVariable(value=ACCOUNT_ID) String accountId, @RequestBody CashWidthdrawalForm cashWidthdrawalForm) {
 		String customerId = principal.getName();
 		
-		bankingService.cashWithdrawal(customerId, accountId, cashWidthdrawal.getAmount());
+		bankingService.cashWithdrawal(customerId, accountId, cashWidthdrawalForm.getAmount());
 		
 		return accountDetailView(accountId, customerId);
 	}
 	
 	@RequestMapping(method=POST, value=DEPOSIT)
-	public AccountDetailView deposit(Principal principal, @PathVariable(value=ACCOUNT_ID) String accountId, @RequestBody DepositView depositView) {
+	public AccountDetailView deposit(Principal principal, @PathVariable(value=ACCOUNT_ID) String accountId, @RequestBody DepositForm depositForm) {
 		String customerId = principal.getName();
 		
-		bankingService.deposit(customerId, accountId, depositView.getAmount());
+		bankingService.deposit(customerId, accountId, depositForm.getAmount());
 		
 		return accountDetailView(accountId, customerId);
 	}
 	
 	@RequestMapping(method=POST, value=PAYMENT)
-	public AccountDetailView payment(Principal principal, @PathVariable(value=ACCOUNT_ID) String forAccountId, @RequestBody PaymentView paymentView) {
+	public AccountDetailView payment(Principal principal, @PathVariable(value=ACCOUNT_ID) String forAccountId, @RequestBody PaymentForm paymentForm) {
 		String customerId = principal.getName();
 		
-		bankingService.payment(customerId, forAccountId, paymentView.getFromAccount(), paymentView.getAmount());
+		bankingService.payment(customerId, forAccountId, paymentForm.getFromAccount(), paymentForm.getAmount());
 		
 		return accountDetailView(forAccountId, customerId);
 	}
 	
 	@RequestMapping(method=POST, value=TRANSFER)
-	public AccountDetailView transfer(Principal principal, @PathVariable(value=ACCOUNT_ID) String toAccountId, @RequestBody TransferView transferView) {
+	public AccountDetailView transfer(Principal principal, @PathVariable(value=ACCOUNT_ID) String toAccountId, @RequestBody TransferForm transferForm) {
 		String customerId = principal.getName();
 		
-		bankingService.transfer(customerId, toAccountId, transferView.getFromAccount(), transferView.getAmount());
+		bankingService.transfer(customerId, toAccountId, transferForm.getFromAccount(), transferForm.getAmount());
 		
 		return accountDetailView(toAccountId, customerId);
 	}

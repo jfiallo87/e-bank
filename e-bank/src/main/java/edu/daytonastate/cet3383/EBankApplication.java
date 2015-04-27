@@ -34,7 +34,9 @@ public class EBankApplication {
 				CustomerName markMonk = new CustomerName("Monk", "Mark");
 				CustomerName bahmanMotlagh = new CustomerName("Motlagh", "Bahman");
 				
-				List<CustomerName> customerNames = Arrays.asList(juanFiallo, danWilliams, markMonk, bahmanMotlagh);
+				CustomerName jamesBond = new CustomerName("Bond", "James"); //Mock user for integration tests
+				
+				List<CustomerName> customerNames = Arrays.asList(juanFiallo, danWilliams, markMonk, bahmanMotlagh, jamesBond);
 				
 				for (CustomerName customerName : customerNames) {
 					String userName = customerName.firstName().toLowerCase() + "." + customerName.lastName().toLowerCase();

@@ -1,5 +1,7 @@
 package edu.daytonastate.cet3383.ebank.repository;
 
+import static edu.daytonastate.cet3383.ebank.repository.InMemoryDb.*;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -13,8 +15,6 @@ import edu.daytonastate.cet3383.ebank.Id;
 
 @Repository
 public class AccountHistoryRepository extends AbstractAccountRepository {
-	
-	private static Map<Date, Map<Id, Map<String, Object>>> accountHistory = new HashMap<>();
 	
 	public void save(Date transactionDate, Account account) {
 		if (account != null) {

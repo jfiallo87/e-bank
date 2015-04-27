@@ -1,5 +1,7 @@
 package edu.daytonastate.cet3383.ebank.repository;
 
+import static edu.daytonastate.cet3383.ebank.repository.InMemoryDb.*;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,8 +17,6 @@ public class CustomerRepository {
 	private static final String CUSTOMER_MIDDLE_NAME_INITIAL = "middleNameInitial";
 	private static final String CUSTOMER_FIRST_NAME = "firstName";
 	private static final String CUSTOMER_LAST_NAME = "lastName";
-	
-	private static Map<Id, Map<String, Object>> customers = new HashMap<>();
 	
 	public void save(Customer customer) {
 		Map<String, Object> customerRecord = new HashMap<>();
