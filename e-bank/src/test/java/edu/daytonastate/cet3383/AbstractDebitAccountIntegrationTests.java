@@ -1,7 +1,6 @@
 package edu.daytonastate.cet3383;
 
 import static edu.daytonastate.cet3383.TestFixtures.JAMES_BOND;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
@@ -18,10 +17,10 @@ import edu.daytonastate.cet3383.ebank.service.CustomerService;
 public abstract class AbstractDebitAccountIntegrationTests {
 	
 	@Autowired
-	CustomerService customerService;
+	protected CustomerService customerService;
 	
 	@Autowired
-	BankingService bankingService;
+	protected BankingService bankingService;
 
 	public void criticalPath() {
 		Account account = openDebitAccount();
@@ -33,17 +32,23 @@ public abstract class AbstractDebitAccountIntegrationTests {
 		account = accounts.get(accounts.size() - 1);
 	}
 
-	private Account openDebitAccount() {
+	protected abstract void openDebitAccountFor(String customerId);
+	
+	protected Account openDebitAccount() {
 		openDebitAccountFor(JAMES_BOND);
-		List<Account> accounts = customerService.accounts(JAMES_BOND);
-		assertFalse(accounts.isEmpty());
-		sortAccountsById(accounts);
-		Account account = accounts.get(accounts.size() - 1);
+		Account account = lastAccount();
 		assertTrue(account.currentBalance().equals(0.00));
 		return account;
 	}
 
-	private Account deposit(Account intoAccount, Double amount) {
+	protected Account lastAccount() {
+		List<Account> accounts = customerService.accounts(JAMES_BOND);
+		sortAccountsById(accounts);
+		Account account = accounts.get(accounts.size() - 1);
+		return account;
+	}
+
+	protected Account deposit(Account intoAccount, Double amount) {
 		Double previousBalance = intoAccount.currentBalance();
 		Double expectedBalance = previousBalance + amount;
 		String intoAccountId = intoAccount.id().toString();
@@ -53,8 +58,8 @@ public abstract class AbstractDebitAccountIntegrationTests {
 		assertTrue("Expected " + expectedBalance + " Actual " + currentBalance, currentBalance.equals(expectedBalance));
 		return account;
 	}
-	
-	private Account cashWithdrawal(Account fromAccount, Double amount) {
+
+	protected Account cashWithdrawal(Account fromAccount, Double amount) {
 		Double previousBalance = fromAccount.currentBalance();
 		Double expectedBalance = previousBalance - amount;
 		String fromAccountId = fromAccount.id().toString();
@@ -64,7 +69,7 @@ public abstract class AbstractDebitAccountIntegrationTests {
 		assertTrue("Expected " + expectedBalance + " Actual " + currentBalance, currentBalance.equals(expectedBalance));
 		return account;
 	}
-	
+
 	private List<Account> transfer(Account toAccount, Account fromAccount, Double amount) {
 		Double previousToBalance = toAccount.currentBalance();
 		Double expectedToBalance = previousToBalance + amount;
@@ -76,6 +81,7 @@ public abstract class AbstractDebitAccountIntegrationTests {
 		Account accountTo = bankingService.info(JAMES_BOND, toAccountId);
 		Account accountFrom = bankingService.info(JAMES_BOND, fromAccountId);
 		Double accountToCurrentBalance = accountTo.currentBalance();
+		
 		try {
 			assertTrue("Expected " + expectedToBalance + " Actual " + accountToCurrentBalance, accountToCurrentBalance.equals(expectedToBalance));
 			Double accountFromCurrentBalance = accountFrom.currentBalance();
@@ -83,12 +89,13 @@ public abstract class AbstractDebitAccountIntegrationTests {
 		} catch (Throwable t) {
 			throw t;
 		}
+		
 		return Arrays.asList(accountTo, accountFrom);
 	}
 
 	private void sortAccountsById(List<Account> accounts) {
 		Collections.sort(accounts, new Comparator<Account>() {
-
+	
 			@Override
 			public int compare(Account a1, Account a2) {
 				return Long.valueOf(a1.id().toString()).compareTo(Long.valueOf(a2.id().toString()));
@@ -96,7 +103,5 @@ public abstract class AbstractDebitAccountIntegrationTests {
 			
 		});
 	}
-	
-	protected abstract void openDebitAccountFor(String customerId);
 	
 }
