@@ -7,8 +7,6 @@ public abstract class CreditApplication {
 	
 	private Double creditLimit;
 	
-	protected abstract Range<Integer> creditLimitRange();
-	
 	public CreditApplication() {
 		Range<Integer> creditLimitRange = creditLimitRange();
 		int minimumCredit = creditLimitRange.getMinimum();
@@ -20,4 +18,7 @@ public abstract class CreditApplication {
 	public Double creditLimit() {
 		return creditLimit;
 	}
+	
+	protected abstract Range<Integer> creditLimitRange();
+	
 }

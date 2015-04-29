@@ -6,8 +6,6 @@ public abstract class Account {
 	private final Id customerId;
 	private final AccountType type;
 	private Double balance;
-	
-	protected Double balanceLimit = Double.MAX_VALUE;
 
 	public Account(Id id, Id customerId, AccountType type, Double balance) {
 		this.id = id;
@@ -45,6 +43,8 @@ public abstract class Account {
 	public boolean accessibleBy(Id accessibleBy) {
 		return (customerId.toString().equals(accessibleBy.toString()));
 	}
+	
+	protected Double balanceLimit = Double.MAX_VALUE;
 	
 	protected Double changeBalance(Double amount) {
 		synchronized (balance) {
