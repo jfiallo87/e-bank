@@ -27,7 +27,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			throws Exception {
 		String juanFiallo = "juan.fiallo";
 		String danWilliams = "dan.williams";
-		String markMonk = "mark.monk";
+		String markMonk = "matt.monk";
 		String bahmanMotlagh = "bahman.motlagh";
 		
 		auth.inMemoryAuthentication()
