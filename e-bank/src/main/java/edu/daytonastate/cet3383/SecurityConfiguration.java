@@ -27,13 +27,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			throws Exception {
 		String juanFiallo = "juan.fiallo";
 		String danWilliams = "dan.williams";
-		String markMonk = "matt.monk";
+		String mattMonk = "matt.monk";
 		String bahmanMotlagh = "bahman.motlagh";
 		
 		auth.inMemoryAuthentication()
 		.withUser(juanFiallo).password(DEFAULT_PASSWORD).roles(CUSTOMER_ROLE).and()
 		.withUser(danWilliams).password(DEFAULT_PASSWORD).roles(CUSTOMER_ROLE).and()
-		.withUser(markMonk).password(DEFAULT_PASSWORD).roles(CUSTOMER_ROLE).and()
+		.withUser(mattMonk).password(DEFAULT_PASSWORD).roles(CUSTOMER_ROLE).and()
 		.withUser(bahmanMotlagh).password(DEFAULT_PASSWORD).roles(CUSTOMER_ROLE);
 	}
 	
