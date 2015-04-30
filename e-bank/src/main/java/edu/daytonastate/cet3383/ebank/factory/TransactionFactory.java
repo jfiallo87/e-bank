@@ -1,5 +1,7 @@
 package edu.daytonastate.cet3383.ebank.factory;
 
+import static edu.daytonastate.cet3383.ebank.ValidationError.*;
+
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,7 +63,7 @@ public class TransactionFactory {
 	
 	private void checkTransactionalDailyLimit(Id accountId) {
 		if (transactionRepository.findByAccountIdAndDate(accountId, new Date()).size() >= TRANSACTIONAL_DAILY_LIMIT) {
-			throw new UnsupportedOperationException();
+			throw new UnsupportedOperationException(TRANSACTIONAL_DAILY_LIMIT_EXCEEDED.message());
 		}
 	}
 		

@@ -1,4 +1,12 @@
 <div>
+	<div ng-show="success" class="alert alert-success" role="alert">
+		{{successMessage}}
+	</div>
+	
+	<div ng-show="error" class="alert alert-danger" role="alert">
+		{{errorMessage}}
+	</div>
+	
 	<div class="page-header">
 		<h1>{{account.type}}: {{account.id}}</h1>
 	</div>

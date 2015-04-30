@@ -1,6 +1,7 @@
 package edu.daytonastate.cet3383.ebank;
 
 import static edu.daytonastate.cet3383.ebank.AccountType.*;
+import static edu.daytonastate.cet3383.ebank.ValidationError.*;
 
 import org.apache.commons.lang3.Range;
 
@@ -16,7 +17,7 @@ public class CreditCardAccount extends CreditAccount {
 		Range<Double> allowedCashBack = Range.between(0.00, balanceLimit + currentBalance());
 		
 		if (!allowedCashBack.contains(amount)) {
-			throw new UnsupportedOperationException();
+			throw new UnsupportedOperationException(INVALID_AMOUNT.message());
 		}
 		
 		return changeBalance(-amount);

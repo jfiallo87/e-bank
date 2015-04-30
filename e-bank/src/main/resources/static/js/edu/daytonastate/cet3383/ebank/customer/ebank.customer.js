@@ -1,5 +1,9 @@
 angular.module("ebank.customer", [])
 .controller("customerController", function($scope, $http) {
+	$scope.success = false;
+	$scope.error = false;
+	$scope.successMessage = "";
+	$scope.errorMessage = "";
 	$scope.customer = {};
 	$scope.loanTypes = [{value: "car", label: "Car Loan"},
 	                    {value: "boat", label: "Boat Loan"},
@@ -15,9 +19,25 @@ angular.module("ebank.customer", [])
 	};
 	
 	var openAccount = function(type, data) {
+		$scope.success = false;
+		$scope.error = false;
+		$scope.successMessage = null;
+		$scope.errorMessage = null;
 		$http.post("/api/account/open/" + type, data)
 		.success(function(data) {
 			$scope.customer = data;
+			$scope.success = true;
+			$scope.successMessage = "Success! :)";
+		})
+		.error(function(data, status, headers, config) {
+			$scope.error = true;
+			$scope.errorMessage = "Oops! ";
+			
+			if (data.message != "No message available") {
+				$scope.errorMessage = $scope.errorMessage + data.message;
+			}
+			
+			$scope.errorMessage = $scope.errorMessage + " :(";
 		});
 	}
 	

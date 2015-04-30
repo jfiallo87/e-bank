@@ -1,6 +1,7 @@
 package edu.daytonastate.cet3383.ebank;
 
 import static edu.daytonastate.cet3383.ebank.AccountType.*;
+import static edu.daytonastate.cet3383.ebank.ValidationError.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -15,17 +16,17 @@ public abstract class DebitAccount extends Account {
 		super(id, customerId, type, balance);
 		
 		if (!allowedTypes.contains(type)) {
-			throw new UnsupportedOperationException();
+			throw new UnsupportedOperationException(INVALID_ACCOUNT_TYPE.message());
 		}
 		
 		if (balance < 0.0) {
-			throw new UnsupportedOperationException();
+			throw new UnsupportedOperationException(INVALID_BALANCE.message());
 		}
 	}
 	
 	public Double deposit(Double amount) {
 		if (amount < 0.0) {
-			throw new UnsupportedOperationException();
+			throw new UnsupportedOperationException(INVALID_AMOUNT.message());
 		}
 		
 		return changeBalance(amount);
@@ -35,7 +36,7 @@ public abstract class DebitAccount extends Account {
 		double amountToWithdraw = -amount;
 		
 		if (currentBalance() < amount) {
-			throw new UnsupportedOperationException();
+			throw new UnsupportedOperationException(INVALID_AMOUNT.message());
 		}
 		
 		return changeBalance(amountToWithdraw);
@@ -45,7 +46,7 @@ public abstract class DebitAccount extends Account {
 		Range<Double> allowedCash = Range.between(0.00, 500.00);
 		
 		if (!allowedCash.contains(amount)) {
-			throw new UnsupportedOperationException();
+			throw new UnsupportedOperationException(INVALID_AMOUNT.message());
 		}
 		
 		return withdraw(amount);

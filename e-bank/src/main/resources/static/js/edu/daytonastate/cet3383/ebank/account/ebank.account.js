@@ -1,5 +1,9 @@
 angular.module("ebank.account", [])
 .controller("accountController", function($scope, $http, $routeParams) {
+	$scope.success = false;
+	$scope.error = false;
+	$scope.successMessage = "";
+	$scope.errorMessage = "";
 	$scope.account = {};
 	$scope.transactionTypes = []
 	$scope.debitAccounts = [];
@@ -56,9 +60,25 @@ angular.module("ebank.account", [])
 	};
 	
 	$scope.submitTransaction = function() {
+		$scope.success = false;
+		$scope.error = false;
+		$scope.successMessage = null;
+		$scope.errorMessage = null;
 		$http.post("/api/account/" + $scope.accountId + "/" + $scope.transaction.type.value, $scope.transaction.data)
 		.success(function(data) {
 			$scope.account = data;
+			$scope.success = true;
+			$scope.successMessage = "Success! :)";
+		})
+		.error(function(data, status, headers, config) {
+			$scope.error = true;
+			$scope.errorMessage = "Oops! ";
+			
+			if (data.message != "No message available") {
+				$scope.errorMessage = $scope.errorMessage + data.message;
+			}
+			
+			$scope.errorMessage = $scope.errorMessage + " :(";
 		});
 	};
 	
