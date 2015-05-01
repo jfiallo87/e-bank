@@ -13,8 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import edu.daytonastate.cet3383.ebank.Account;
 import edu.daytonastate.cet3383.ebank.Customer;
+import edu.daytonastate.cet3383.ebank.Policy;
+import edu.daytonastate.cet3383.ebank.PolicyType;
 import edu.daytonastate.cet3383.ebank.service.CustomerService;
 import edu.daytonastate.cet3383.ebank.web.form.LoanApplicationForm;
+import edu.daytonastate.cet3383.ebank.web.form.PolicyForm;
 import edu.daytonastate.cet3383.ebank.web.view.CustomerView;
 
 @RestController
@@ -103,12 +106,29 @@ public class CustomerRestController {
 		return customerView;
 	}
 	
+	@RequestMapping(method=POST, value=POLICY_ACTIVATE)
+	public CustomerView activatePolicy(Principal customer, @RequestBody PolicyForm policyForm) {
+		String customerId = customer.getName();
+		PolicyType policyType = policyForm.getPolicyType();
+		customerService.activatePolicy(customerId, policyType);
+		CustomerView customerView = customerView(customerId);
+		return customerView;
+	}
+	
+	@RequestMapping(method=POST, value=POLICY_DEACTIVATE)
+	public CustomerView deactivatePolicy(Principal customer, @RequestBody PolicyForm policyForm) {
+		String customerId = customer.getName();
+		PolicyType policyType = policyForm.getPolicyType();
+		customerService.deactivatePolicy(customerId, policyType);
+		CustomerView customerView = customerView(customerId);
+		return customerView;
+	}
+	
 	private CustomerView customerView(String customerId) {
 		Customer customerInfo = customerService.info(customerId);
 		List<Account> accounts = customerService.accounts(customerId);
-		
-		CustomerView customerView = new CustomerView(customerInfo, accounts);
-		
+		List<Policy> policies = customerService.policies(customerId);
+		CustomerView customerView = new CustomerView(customerInfo, accounts, policies);
 		return customerView;
 	}
 	

@@ -57,5 +57,37 @@ angular.module("ebank.customer", [])
 		openAccount("loan/" + $scope.loanApplication.type.value, $scope.loanApplication.data);
 	}
 	
+	$scope.accountCreationEnabled = function() {
+		var enabled = false;
+		
+		angular.forEach($scope.customer.policies, function(policy) {
+			if (policy.policyType == "ACCOUNT_CREATION" && policy.active) {
+				enabled = true;
+			}
+		});
+		
+		return enabled;
+	}
+	
+	$scope.updatePolicy = function(policy) {
+		$scope.success = false;
+		$scope.error = false;
+		$scope.successMessage = null;
+		$scope.errorMessage = null;
+		var policyData = {policyType: policy.policyType};
+		var policyAction = "";
+		
+		if (policy.active) {
+			policyAction = "activate";
+		} else {
+			policyAction = "deactivate";
+		}
+		
+		$http.post("/api/policy/" + policyAction, policyData)
+		.success(function(data) {
+			$scope.customer = data;
+		});
+	}
+	
 	$scope.loadCustomer();
 });

@@ -5,18 +5,19 @@ import java.util.List;
 
 import edu.daytonastate.cet3383.ebank.Account;
 import edu.daytonastate.cet3383.ebank.Customer;
+import edu.daytonastate.cet3383.ebank.Policy;
 
 public class CustomerView {
 	
 	private String lastName;
 	private String firstName;
 	private Character middleNameInitial;
-	
 	private List<AccountSummaryView> accounts = new ArrayList<>();
+	private List<PolicyView> policies = new ArrayList<>();
 
 	public CustomerView() {}
 	
-	public CustomerView(Customer customer, List<Account> customerAccounts) {
+	public CustomerView(Customer customer, List<Account> customerAccounts, List<Policy> customerPolicies) {
 		if (customer != null) {
 			lastName = customer.name().lastName();
 			firstName = customer.name().firstName();
@@ -26,8 +27,14 @@ public class CustomerView {
 		if (customerAccounts != null) {
 			for (Account account : customerAccounts) {
 				AccountSummaryView accountSummaryView = new AccountSummaryView(account);
-				
 				accounts.add(accountSummaryView);
+			}
+		}
+		
+		if (policies != null) {
+			for (Policy policy : customerPolicies) {
+				PolicyView policyView = new PolicyView(policy);
+				policies.add(policyView);
 			}
 		}
 	}
@@ -62,6 +69,14 @@ public class CustomerView {
 
 	public void setAccounts(List<AccountSummaryView> accounts) {
 		this.accounts = accounts;
+	}
+
+	public List<PolicyView> getPolicies() {
+		return policies;
+	}
+
+	public void setPolicies(List<PolicyView> policies) {
+		this.policies = policies;
 	}
 	
 }

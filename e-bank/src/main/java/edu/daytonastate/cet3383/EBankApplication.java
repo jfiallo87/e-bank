@@ -11,8 +11,11 @@ import org.springframework.context.annotation.Bean;
 import edu.daytonastate.cet3383.ebank.Customer;
 import edu.daytonastate.cet3383.ebank.CustomerName;
 import edu.daytonastate.cet3383.ebank.Id;
+import edu.daytonastate.cet3383.ebank.Policy;
+import edu.daytonastate.cet3383.ebank.PolicyType;
 import edu.daytonastate.cet3383.ebank.factory.IdFactory;
 import edu.daytonastate.cet3383.ebank.repository.CustomerRepository;
+import edu.daytonastate.cet3383.ebank.repository.PolicyRepository;
 
 @SpringBootApplication
 public class EBankApplication {
@@ -22,29 +25,29 @@ public class EBankApplication {
     }
     
     @Bean
-    CommandLineRunner init(CustomerRepository customerRepository, IdFactory idFactory) {
+    CommandLineRunner init(CustomerRepository customerRepository, PolicyRepository policyRepository, IdFactory idFactory) {
     	return new CommandLineRunner() {
 			
 			@Override
 			public void run(String... args) throws Exception {
 				System.out.println("Creating test data");
-				
 				CustomerName juanFiallo = new CustomerName("Fiallo", "Juan", 'M');
 				CustomerName danWilliams = new CustomerName("Williams", "Dan");
 				CustomerName markMonk = new CustomerName("Monk", "Mark");
 				CustomerName bahmanMotlagh = new CustomerName("Motlagh", "Bahman");
-				
 				CustomerName jamesBond = new CustomerName("Bond", "James"); //Mock user for integration tests
-				
 				List<CustomerName> customerNames = Arrays.asList(juanFiallo, danWilliams, markMonk, bahmanMotlagh, jamesBond);
 				
 				for (CustomerName customerName : customerNames) {
 					String userName = customerName.firstName().toLowerCase() + "." + customerName.lastName().toLowerCase();
 					Id id = new Id(userName);
 					Customer customer = new Customer(id, customerName);
-					
 					customerRepository.save(customer);
-					
+					boolean active = true;
+					Policy transactionDailyLimitPolicy = new Policy(PolicyType.TRANSACTION_DAILY_LIMIT, active);
+					policyRepository.save(id, transactionDailyLimitPolicy);
+					Policy accountCreationPolicy = new Policy(PolicyType.ACCOUNT_CREATION, active);
+					policyRepository.save(id, accountCreationPolicy);
 					System.out.println("Created Customer " + customerName + " with Id " + id);
 				}
 			}

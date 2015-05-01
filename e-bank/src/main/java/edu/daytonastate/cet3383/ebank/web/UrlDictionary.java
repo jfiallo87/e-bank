@@ -18,6 +18,9 @@ public final class UrlDictionary {
 	public static final String DEPOSIT = "/deposit";
 	public static final String PAYMENT = "/payment";
 	public static final String TRANSFER = "/transfer";
+	public static final String POLICY = "/policy";
+	public static final String POLICY_ACTIVATE = POLICY + "/activate";
+	public static final String POLICY_DEACTIVATE = POLICY + "/deactivate";
 	
 	private UrlDictionary() {}
 	

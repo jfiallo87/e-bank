@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import edu.daytonastate.cet3383.ebank.Id;
+import edu.daytonastate.cet3383.ebank.PolicyType;
 
 public class InMemoryDb {
 	
@@ -14,5 +15,6 @@ public class InMemoryDb {
 	public static final Map<Id, Map<String, Object>> accounts = new HashMap<>();
 	public static final Map<Id, Map<String, Object>> customers = new HashMap<>();
 	public static final Map<Id, List<Map<String, Object>>> transactions = new LinkedHashMap<>();
+	public static final Map<Id, Map<PolicyType, Map<String, Object>>> policies = new HashMap<>();
 	
 }

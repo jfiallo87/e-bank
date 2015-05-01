@@ -11,35 +11,54 @@
 		<h1>Hi {{customer.firstName}} {{customer.lastName}}!</h1>
 	</div>
 	
-	<ul class="list-group">
-		<li class="list-group-item">
-			<a href="" ng-click="openCheckingAccount()">Open New Checking Account</a>
-		</li>
-		<li class="list-group-item">
-			<a href="" ng-click="openSavingsAccount()">Open New Savings Account</a>
-		</li>
-		<li class="list-group-item">
-			<a href="" ng-click="openCreditCardAccount()">Apply for New Credit Card</a>
-		</li>
-	</ul>
-	
-	<div class="panel panel-default">
+	<div class="panel panel-success">
 		<div class="panel-heading">
-			<h3 class="panel-title">Loan Application</h3>
+			<h3 class="panel-title">Policies</h3>
 		</div>
 		<div class="panel-body">
-			<form novalidate ng-submit="loanApplication()">
-				<label for="type">Type</label>
-				<select id="type" class="form-control" ng-model="loanApplication.type" ng-options="type as type.label for type in loanTypes">
-				</select>
-				
-				<label for="amount">Amount</label>
-				<input id="amount" type="number" class="form-control" ng-model="loanApplication.data.amount">
-				
-				<br/>
-				
-				<input type="submit" value="Submit" class="btn btn-default">
+			<form novalidate>
+				<div class="checkbox" ng-repeat="policy in customer.policies">
+					<label>
+				    	<input type="checkbox" ng-model="policy.active" ng-change="updatePolicy(policy)">
+				    	{{policy.description}}
+				    </label>
+				</div>
 			</form>
+		</div>
+	</div>
+	
+	<div ng-show="accountCreationEnabled()">
+		<ul class="list-group">
+			<li class="list-group-item">
+				<a href="" ng-click="openCheckingAccount()">Open New Checking Account</a>
+			</li>
+			<li class="list-group-item">
+				<a href="" ng-click="openSavingsAccount()">Open New Savings Account</a>
+			</li>
+			<li class="list-group-item">
+				<a href="" ng-click="openCreditCardAccount()">Apply for New Credit Card</a>
+			</li>
+		</ul>
+		
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Loan Application</h3>
+			</div>
+			<div class="panel-body">
+				<form novalidate ng-submit="loanApplication()">
+					<label for="type">Type</label>
+					<select id="type" class="form-control" ng-model="loanApplication.type" ng-options="type as type.label for type in loanTypes">
+					</select>
+					
+					<label for="amount">Amount</label>
+					<input id="amount" type="number" class="form-control" ng-model="loanApplication.data.amount">
+					
+					<br/>
+					
+					<input type="reset" value="Reset" class="btn btn-default">
+					<input type="submit" value="Submit" class="btn btn-primary">
+				</form>
+			</div>
 		</div>
 	</div>
 	
