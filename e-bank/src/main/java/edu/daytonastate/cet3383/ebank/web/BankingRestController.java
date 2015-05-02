@@ -1,6 +1,6 @@
 package edu.daytonastate.cet3383.ebank.web;
 
-import static edu.daytonastate.cet3383.ebank.web.UrlDictionary.*;
+import static edu.daytonastate.cet3383.ebank.web.url.UrlDictionary.*;
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 import java.security.Principal;

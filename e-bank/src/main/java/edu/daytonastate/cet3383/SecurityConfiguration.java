@@ -1,15 +1,13 @@
 package edu.daytonastate.cet3383;
 
-import static org.springframework.boot.autoconfigure.security.SecurityProperties.ACCESS_OVERRIDE_ORDER;
-
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
 
 @Configuration
-@Order(ACCESS_OVERRIDE_ORDER)
+@EnableWebMvcSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	private static final String DEFAULT_PASSWORD = "password";
@@ -19,6 +17,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 		.formLogin()
+		.loginPage("/login")
+		.permitAll()
 		.and()
 		.logout()
 		.permitAll()
@@ -37,13 +37,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		String juanFiallo = "juan.fiallo";
 		String danWilliams = "dan.williams";
 		String mattMonk = "matt.monk";
-		String bahmanMotlagh = "bahman.motlagh";
+		
+		//Test user with card number and pin for the professor
+		String bahmanMotlaghCardNumber = "1234567812345678";
+		String bahmanMotlaghPin = "0987";
 		
 		auth.inMemoryAuthentication()
 		.withUser(juanFiallo).password(DEFAULT_PASSWORD).roles(CUSTOMER_ROLE).and()
 		.withUser(danWilliams).password(DEFAULT_PASSWORD).roles(CUSTOMER_ROLE).and()
 		.withUser(mattMonk).password(DEFAULT_PASSWORD).roles(CUSTOMER_ROLE).and()
-		.withUser(bahmanMotlagh).password(DEFAULT_PASSWORD).roles(CUSTOMER_ROLE);
+		.withUser(bahmanMotlaghCardNumber).password(bahmanMotlaghPin).roles(CUSTOMER_ROLE);
 	}
 	
 }

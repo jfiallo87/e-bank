@@ -1,0 +1,37 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<title>E-Bank Login</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ng-tags-input/2.1.1-1/ng-tags-input.bootstrap.min.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ng-tags-input/2.1.1-1/ng-tags-input.min.css"/>
+</head>
+
+<body>
+    <div class="container">
+    	<div class="jumbotron">
+    		<div class="alert alert-danger" th:if="${param.error}">
+				There was a problem logging in. Please try again.
+			</div>
+			<div class="alert alert-info" th:if="${param.logout}">
+	            You have been logged out.
+	        </div>
+			<form th:action="@{/login}" method="post">
+				<div class="form-group">
+					<label for="username">Card Number:</label>
+					<input type="text" class="form-control" name="username"/>
+				</div>
+				<div class="form-group">
+					<label for="password">PIN:</label>
+					<input type="password" class="form-control" name="password"/>
+				</div>
+				<input type="submit" class="btn btn-primary" value="Sign In"/>
+			</form>
+		</div>
+    </div>
+</body>
+</html>

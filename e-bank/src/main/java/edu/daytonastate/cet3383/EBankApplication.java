@@ -34,22 +34,33 @@ public class EBankApplication {
 				CustomerName juanFiallo = new CustomerName("Fiallo", "Juan", 'M');
 				CustomerName danWilliams = new CustomerName("Williams", "Dan");
 				CustomerName markMonk = new CustomerName("Monk", "Mark");
-				CustomerName bahmanMotlagh = new CustomerName("Motlagh", "Bahman");
 				CustomerName jamesBond = new CustomerName("Bond", "James"); //Mock user for integration tests
-				List<CustomerName> customerNames = Arrays.asList(juanFiallo, danWilliams, markMonk, bahmanMotlagh, jamesBond);
+				List<CustomerName> customerNames = Arrays.asList(juanFiallo, danWilliams, markMonk, jamesBond);
 				
 				for (CustomerName customerName : customerNames) {
 					String userName = customerName.firstName().toLowerCase() + "." + customerName.lastName().toLowerCase();
 					Id id = new Id(userName);
-					Customer customer = new Customer(id, customerName);
-					customerRepository.save(customer);
-					boolean active = true;
-					Policy transactionDailyLimitPolicy = new Policy(PolicyType.TRANSACTION_DAILY_LIMIT, active);
-					policyRepository.save(id, transactionDailyLimitPolicy);
-					Policy accountCreationPolicy = new Policy(PolicyType.ACCOUNT_CREATION, active);
-					policyRepository.save(id, accountCreationPolicy);
-					System.out.println("Created Customer " + customerName + " with Id " + id);
+					initCustomer(id, customerName, customerRepository, policyRepository);
 				}
+				
+				//Test user with card number for the professor
+				CustomerName bahmanMotlagh = new CustomerName("Motlagh", "Bahman");
+				String cardNumber = "1234567812345678";
+				Id id = new Id(cardNumber);
+				initCustomer(id, bahmanMotlagh, customerRepository, policyRepository);
+			}
+
+			private void initCustomer(Id id, CustomerName customerName,
+					CustomerRepository customerRepository,
+					PolicyRepository policyRepository) {
+				Customer customer = new Customer(id, customerName);
+				customerRepository.save(customer);
+				boolean active = true;
+				Policy transactionDailyLimitPolicy = new Policy(PolicyType.TRANSACTION_DAILY_LIMIT, active);
+				policyRepository.save(id, transactionDailyLimitPolicy);
+				Policy accountCreationPolicy = new Policy(PolicyType.ACCOUNT_CREATION, active);
+				policyRepository.save(id, accountCreationPolicy);
+				System.out.println("Created Customer " + customerName + " with Id " + id);
 			}
 		};
     }

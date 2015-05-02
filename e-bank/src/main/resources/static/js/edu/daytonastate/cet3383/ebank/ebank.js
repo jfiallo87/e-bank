@@ -4,10 +4,10 @@ angular.module("ebank", ["ebank.customer",
 .config(function($routeProvider) {
 	$routeProvider
 	.when("/", {
-		templateUrl: "template/home.html",
+		templateUrl: "templates/home.html",
 		controller: "customerController"})
 	.when("/account/:accountId", {
-		templateUrl: "template/account.html",
+		templateUrl: "templates/account.html",
 		controller: "accountController"})
 	.otherwise({
 		redirectTo: "/"

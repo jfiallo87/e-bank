@@ -1,4 +1,4 @@
-package edu.daytonastate.cet3383.ebank.web;
+package edu.daytonastate.cet3383.ebank.web.url;
 
 public final class UrlDictionary {
 	
